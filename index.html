@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抽獎動畫</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('0801.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* 確保背景覆蓋整個視窗 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column; /* 使內容垂直排列 */
+        }
+
+        #number-display {
+            font-size: 120px;
+            text-align: center;
+            margin-bottom: 20px; /* 按鈕與數字顯示之間的距離 */
+            color: #F8B62D; /* 黃色數字 */
+            letter-spacing: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #F8B62D; /* 綠色按鈕 */
+            color: white; /* 白色文字 */
+            border: none;
+            border-radius: 5px;
+            transform: scale(2);
+            margin-top: 20px;
+        }
+
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        .box{
+            transform: translateX(170px);
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div id="number-display">1X000</div>
+        <button id="start-button" onclick="startAnimation()">開始抽獎</button>
+    </div>
+
+    <script>
+        /**
+         * Returns a random integer between min (inclusive) and max (inclusive).
+         * @param {number} min - The minimum integer value.
+         * @param {number} max - The maximum integer value.
+         * @return {number} A random integer between min and max.
+         */
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        /**
+         * Starts the animation to simulate a lottery draw.
+         */
+        function startAnimation() {
+            const display = document.getElementById('number-display');
+            const button = document.getElementById('start-button');
+            const fixedPrefix = '1X';  // Fixed prefix for the number
+            
+            // Disable the button to prevent multiple clicks
+            button.disabled = true;
+
+            // First phase: Show changing last three digits
+            let interval = setInterval(() => {
+                display.innerText = fixedPrefix + getRandomInt(0, 999).toString().padStart(3, '0');
+            }, 100);
+
+            // After 3 seconds, stop the animation and show the final number
+            setTimeout(() => {
+                clearInterval(interval);
+
+                // Final number with last three digits fixed
+                let finalLastThreeDigits = getRandomInt(0, 999).toString().padStart(3, '0');
+                display.innerText = fixedPrefix + finalLastThreeDigits;
+
+                // Re-enable the button after animation completes
+                button.disabled = false;
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
