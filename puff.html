@@ -8,7 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             background-image: url('0801.png');
-            background-size: cover; /* 確保背景覆蓋整個視窗 */
+            background-size: contain; /* 確保背景覆蓋整個視窗 */
             background-repeat: no-repeat;
             background-position: center;
             background-color: #000;
@@ -55,6 +55,9 @@
 
         /* 手機屏幕的樣式 */
         @media (max-width: 600px) {
+            body{
+                background-size: cover;
+            }
             #number-display {
                 font-size: 80px; /* 調整數字大小 */
                 margin-bottom: 15px; /* 調整間距 */
