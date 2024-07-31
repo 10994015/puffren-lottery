@@ -8,24 +8,24 @@
         body {
             font-family: Arial, sans-serif;
             background-image: url('0801.png');
-            background-size: contain;
+            background-size: cover; /* 確保背景覆蓋整個視窗 */
             background-repeat: no-repeat;
             background-position: center;
             background-color: #000;
             margin: 0;
             padding: 0;
-            height: 100vh; /* 確保背景覆蓋整個視窗 */
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column; /* 使內容垂直排列 */
+            flex-direction: column;
         }
 
         #number-display {
             font-size: 120px;
             text-align: center;
-            margin-bottom: 20px; /* 按鈕與數字顯示之間的距離 */
-            color: #F8B62D; /* 黃色數字 */
+            margin-bottom: 20px;
+            color: #F8B62D;
             letter-spacing: 5px;
         }
 
@@ -33,11 +33,11 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            background-color: #F8B62D; /* 綠色按鈕 */
-            color: white; /* 白色文字 */
+            background-color: #F8B62D;
+            color: white;
             border: none;
             border-radius: 5px;
-            transform: scale(2);
+            transform: scale(1.5);
             margin-top: 20px;
         }
 
@@ -45,11 +45,31 @@
             cursor: not-allowed;
             opacity: 0.5;
         }
-        .box{
+
+        .box {
             transform: translateX(170px);
             display: flex;
             align-items: center;
             flex-direction: column;
+        }
+
+        /* 手機屏幕的樣式 */
+        @media (max-width: 600px) {
+            #number-display {
+                font-size: 80px; /* 調整數字大小 */
+                margin-bottom: 15px; /* 調整間距 */
+            }
+
+            button {
+                padding: 8px 16px; /* 調整按鈕內邊距 */
+                font-size: 14px; /* 調整字體大小 */
+                transform: scale(1); /* 調整按鈕大小 */
+                margin-top: 15px; /* 調整按鈕上邊距 */
+            }
+
+            .box {
+                transform: translateX(0); /* 移除水平方向的偏移 */
+            }
         }
     </style>
 </head>
@@ -60,41 +80,25 @@
     </div>
 
     <script>
-        /**
-         * Returns a random integer between min (inclusive) and max (inclusive).
-         * @param {number} min - The minimum integer value.
-         * @param {number} max - The maximum integer value.
-         * @return {number} A random integer between min and max.
-         */
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
-        /**
-         * Starts the animation to simulate a lottery draw.
-         */
         function startAnimation() {
             const display = document.getElementById('number-display');
             const button = document.getElementById('start-button');
-            const fixedPrefix = '1X';  // Fixed prefix for the number
+            const prefix = '1X';  // Fixed prefix
             
-            // Disable the button to prevent multiple clicks
             button.disabled = true;
 
-            // First phase: Show changing last three digits
             let interval = setInterval(() => {
-                display.innerText = fixedPrefix + getRandomInt(0, 999).toString().padStart(3, '0');
+                display.innerText = prefix + getRandomInt(0, 999).toString().padStart(3, '0');
             }, 100);
 
-            // After 3 seconds, stop the animation and show the final number
             setTimeout(() => {
                 clearInterval(interval);
-
-                // Final number with last three digits fixed
                 let finalLastThreeDigits = getRandomInt(0, 999).toString().padStart(3, '0');
-                display.innerText = fixedPrefix + finalLastThreeDigits;
-
-                // Re-enable the button after animation completes
+                display.innerText = prefix + finalLastThreeDigits;
                 button.disabled = false;
             }, 3000);
         }
